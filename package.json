@@ -1,0 +1,20 @@
+{
+    "name": "demo-infrastructure",
+    "main": "index.ts",
+    "devDependencies": {
+        "@types/lodash": "^4.17.10",
+        "@types/node": "^18",
+        "dotenv-cli": "^7.4.2",
+        "lodash": "^4.17.21",
+        "typescript": "^5.0.0"
+    },
+    "dependencies": {
+        "@pulumi/aws": "^6.0.0",
+        "@pulumi/awsx": "^2.0.2",
+        "@pulumi/pulumi": "^3.113.0"
+    },
+    "scripts": {
+        "pulumi:up": "dotenv -e .env pulumi up",
+        "pulumi:destroy": "dotenv -e .env pulumi destroy"
+    }
+}
