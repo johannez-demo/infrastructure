@@ -14,7 +14,8 @@
         "@pulumi/pulumi": "^3.113.0"
     },
     "scripts": {
-        "pulumi:up": "dotenv -e .env pulumi up",
-        "pulumi:destroy": "dotenv -e .env pulumi destroy"
+        "infra:login": "dotenv -e .env -- pulumi login",
+        "infra:up": "dotenv -e .env -- pulumi up",
+        "infra:down": "dotenv -e .env -- pulumi destroy"
     }
 }

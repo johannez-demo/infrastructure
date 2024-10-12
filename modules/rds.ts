@@ -3,7 +3,7 @@ import * as vpc from "./vpc";
 import * as config from "../config";
 
 // Create a security group for the RDS instance
-const rdsSgName = `${config.infraPrefix}-db-sg`;
+const rdsSgName = `${config.prefix}-db-sg`;
 const rdsSecurityGroup = new aws.ec2.SecurityGroup(rdsSgName, {
     vpcId: vpc.vpcId,
     ingress: [
@@ -28,8 +28,8 @@ const rdsSecurityGroup = new aws.ec2.SecurityGroup(rdsSgName, {
 });
 
 // Create an RDS instance in the private subnet
-const rdsName = `${config.infraPrefix}-db`;
-const rdsSubGroupName = `${config.infraPrefix}-db-subnet-group`;
+const rdsName = `${config.prefix}-db`;
+const rdsSubGroupName = `${config.prefix}-db-subnet-group`;
 const rdsInstance = new aws.rds.Instance(rdsName, {
     engine: "mysql",
     instanceClass: "db.t3.micro",
@@ -44,7 +44,7 @@ const rdsInstance = new aws.rds.Instance(rdsName, {
         },
     }).name,
     vpcSecurityGroupIds: [rdsSecurityGroup.id],
-    dbName: `${config.infraPrefixCamel}Db`,
+    dbName: `${config.appName}`,
     username: "admin",
     password: "password",
     skipFinalSnapshot: true,

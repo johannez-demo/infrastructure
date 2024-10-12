@@ -1,9 +1,8 @@
-import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
 import * as config from "../config";
 
 // Create a new VPC
-const vpcName = `${config.infraPrefix}-vpc`;
+const vpcName = `${config.prefix}-vpc`;
 const vpc = new aws.ec2.Vpc(vpcName, {
     cidrBlock: config.cidrBlock.vpc,
     enableDnsHostnames: true,
@@ -14,7 +13,7 @@ const vpc = new aws.ec2.Vpc(vpcName, {
 });
 
 // Create an Internet Gateway for the VPC
-const igwName = `${config.infraPrefix}-igw`;
+const igwName = `${config.prefix}-igw`;
 const internetGateway = new aws.ec2.InternetGateway(igwName, {
     vpcId: vpc.id,
     tags: {
@@ -23,7 +22,7 @@ const internetGateway = new aws.ec2.InternetGateway(igwName, {
 });
 
 // Create public subnets
-const publicSubnetNameA = `${config.infraPrefix}-public-subnet-a`;
+const publicSubnetNameA = `${config.prefix}-public-subnet-a`;
 const publicSubnetA = new aws.ec2.Subnet(publicSubnetNameA, {
     vpcId: vpc.id,
     cidrBlock: config.cidrBlock.publicSubnetA,
@@ -34,7 +33,7 @@ const publicSubnetA = new aws.ec2.Subnet(publicSubnetNameA, {
     },
 });
 
-const publicSubnetNameB = `${config.infraPrefix}-public-subnet-b`;
+const publicSubnetNameB = `${config.prefix}-public-subnet-b`;
 const publicSubnetB = new aws.ec2.Subnet(publicSubnetNameB, {
     vpcId: vpc.id,
     cidrBlock: config.cidrBlock.publicSubnetB,
@@ -46,7 +45,7 @@ const publicSubnetB = new aws.ec2.Subnet(publicSubnetNameB, {
 });
 
 // Create private subnets
-const privateSubnetNameA = `${config.infraPrefix}-private-subnet-a`;
+const privateSubnetNameA = `${config.prefix}-private-subnet-a`;
 const privateSubnetA = new aws.ec2.Subnet(privateSubnetNameA, {
     vpcId: vpc.id,
     cidrBlock: config.cidrBlock.privateSubnetA,
@@ -56,7 +55,7 @@ const privateSubnetA = new aws.ec2.Subnet(privateSubnetNameA, {
     },
 });
 
-const privateSubnetNameB = `${config.infraPrefix}-private-subnet-b`;
+const privateSubnetNameB = `${config.prefix}-private-subnet-b`;
 const privateSubnetB = new aws.ec2.Subnet(privateSubnetNameB, {
     vpcId: vpc.id,
     cidrBlock: config.cidrBlock.privateSubnetB,
@@ -67,7 +66,7 @@ const privateSubnetB = new aws.ec2.Subnet(privateSubnetNameB, {
 });
 
 // Create a route table for the public subnet
-const publicRtName = `${config.infraPrefix}-public-rt`;
+const publicRtName = `${config.prefix}-public-rt`;
 const publicRouteTable = new aws.ec2.RouteTable(publicRtName, {
     vpcId: vpc.id,
     routes: [
@@ -82,7 +81,7 @@ const publicRouteTable = new aws.ec2.RouteTable(publicRtName, {
 });
 
 // Associate the public subnet with the route table
-const publicRtaName = `${config.infraPrefix}-public-rta`;
+const publicRtaName = `${config.prefix}-public-rta`;
 const publicRouteTableAssociation = new aws.ec2.RouteTableAssociation(publicRtaName, {
     subnetId: publicSubnetA.id,
     routeTableId: publicRouteTable.id,
