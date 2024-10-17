@@ -44,9 +44,10 @@ resource "aws_db_instance" "rds" {
   allocated_storage      = 20
   db_subnet_group_name   = aws_db_subnet_group.rds.name
   vpc_security_group_ids = [aws_security_group.rds.id]
-  username               = var.db_username
-  password               = var.db_password
+  username               = data.aws_ssm_parameter.db_username.value
+  password               = data.aws_ssm_parameter.db_password.value
   skip_final_snapshot    = true
+  db_name                = local.service_name
 
   tags = {
     Name = "${local.name_prefix}-db"

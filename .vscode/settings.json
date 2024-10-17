@@ -1,0 +1,7 @@
+{
+    "makefile.configureOnOpen": false,
+    "[terraform]": {
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true
+    },
+}

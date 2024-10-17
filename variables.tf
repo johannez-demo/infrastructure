@@ -1,6 +1,15 @@
-variable "region" {
-  description = "The AWS region to deploy to"
+variable "ami_image_id" {
+  description = "AMI ID for a EC2 instances"
   type        = string
+  default     = "ami-079c0d2990b4033f4"
+}
+
+variable "availability_zones" {
+  description = "Availability zones to deploy into"
+  type = object({
+    zone_a = string
+    zone_b = string
+  })
 }
 
 variable "cidr" {
@@ -20,22 +29,13 @@ variable "cidr_anywhere" {
   default     = "0.0.0.0/0"
 }
 
-variable "availability_zones" {
-  description = "Availability zones to deploy into"
-  type = object({
-    zone_a = string
-    zone_b = string
-  })
+variable "enable_bastion" {
+  description = "Whether to create the bastion host"
+  type        = bool
+  default     = true
 }
 
-variable "db_username" {
-  description = "The username for the RDS instance"
+variable "region" {
+  description = "The AWS region to deploy to"
   type        = string
-  sensitive   = true
-}
-
-variable "db_password" {
-  description = "The password for the RDS instance"
-  type        = string
-  sensitive   = true
 }
