@@ -1,6 +1,7 @@
 import * as vpc from "./modules/vpc";
 import * as rds from "./modules/rds";
 import * as ec2 from "./modules/ec2";
+import * as ecs from "./modules/ecs";
 
 
 // Create networking
@@ -16,4 +17,7 @@ export const publicRouteTableId = vpc.publicRouteTableId;
 export const rdsEndpoint = rds.rdsEndpoint;
 
 // Create bastion host if enabled
-export const bastion = ec2.bastion;
+// export const bastion = ec2.bastionIp;
+
+// Create ECS cluster
+export const taskDefinitionArn = ecs.taskDefinitionArn;

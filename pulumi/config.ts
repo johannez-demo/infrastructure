@@ -21,4 +21,5 @@ export const cidrBlock = {
     anywhere: CIDR_BLOCK_ANYWHERE,
 };
 
-export const enableBastion = process.env.ENABLE_BASTION === "true";
+export const dbUsername = pulumiConfig.requireSecret("dbUsername");
+export const dbPassword = pulumiConfig.requireSecret("dbPassword");

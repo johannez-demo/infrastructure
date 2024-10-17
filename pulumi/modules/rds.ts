@@ -45,8 +45,8 @@ const rdsInstance = new aws.rds.Instance(rdsName, {
     }).name,
     vpcSecurityGroupIds: [rdsSecurityGroup.id],
     dbName: `${config.appName}`,
-    username: "admin",
-    password: "password",
+    username: config.dbUsername,
+    password: config.dbPassword,
     skipFinalSnapshot: true,
     tags: {
         Name: rdsName,

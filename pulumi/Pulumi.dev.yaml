@@ -5,3 +5,7 @@ config:
   demo:cidrBlock.privateSubnetA: 10.0.2.0/24
   demo:cidrBlock.publicSubnetB: 10.0.3.0/24
   demo:cidrBlock.privateSubnetB: 10.0.4.0/24
+  demo:dbUsername:
+    secure: v1:8aXHH4CrZZwJ6JOm:+ui4SXqxiDlhLt7UqENGxY9OR+Dg
+  demo:dbPassword:
+    secure: v1:50woukhJpTviQBy+:9fFTnD3WsmK9wrpThcHVeeJ/Rhk4A0iZ
