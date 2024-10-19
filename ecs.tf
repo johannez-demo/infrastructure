@@ -1,17 +1,19 @@
 # Create ECS Cluster
-resource "aws_ecs_cluster" "main" {
-  name = "${local.name_prefix}-ecs-cluster"
+resource "aws_ecs_cluster" "this" {
+  count = terraform.workspace == "prod" ? 1 : 0
+  name  = "${local.name_prefix}-ecs-cluster"
 }
 
 # Create ECS Task Definition for micro containers
 resource "aws_ecs_task_definition" "micro" {
+  count                    = terraform.workspace == "prod" ? 1 : 0
   family                   = "${local.name_prefix}-td-micro"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = "256"
   memory                   = "512"
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
-  task_role_arn            = aws_iam_role.ecs_task_role.arn
+  execution_role_arn       = aws_iam_role.ecs_task_execution_role[0].arn
+  task_role_arn            = aws_iam_role.ecs_task_role[0].arn
 
   container_definitions = jsonencode([
     {
@@ -54,10 +56,11 @@ resource "aws_ecs_task_definition" "micro" {
 }
 
 # Create ECS Service Security Group
-resource "aws_security_group" "ecs_service_sg" {
+resource "aws_security_group" "ecs" {
+  count       = terraform.workspace == "prod" ? 1 : 0
   name        = "${local.name_prefix}-ecs-service-sg"
   description = "Allow HTTP and HTTPS traffic"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = aws_vpc.this.id
 
   ingress {
     protocol    = "tcp"
@@ -86,16 +89,17 @@ resource "aws_security_group" "ecs_service_sg" {
 }
 
 # Create ECS Service
-resource "aws_ecs_service" "main" {
+resource "aws_ecs_service" "this" {
+  count           = terraform.workspace == "prod" ? 1 : 0
   name            = "${local.name_prefix}-ecs-service"
-  cluster         = aws_ecs_cluster.main.arn
+  cluster         = aws_ecs_cluster.this[0].arn
   desired_count   = 1
   launch_type     = "FARGATE"
-  task_definition = aws_ecs_task_definition.micro.arn
+  task_definition = aws_ecs_task_definition.micro[0].arn
 
   network_configuration {
     subnets          = [aws_subnet.public_a.id]
-    security_groups  = [aws_security_group.ecs_service_sg.id]
+    security_groups  = [aws_security_group.ecs[0].id]
     assign_public_ip = true
   }
 

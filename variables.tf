@@ -29,12 +29,6 @@ variable "cidr_anywhere" {
   default     = "0.0.0.0/0"
 }
 
-variable "enable_bastion" {
-  description = "Whether to create the bastion host"
-  type        = bool
-  default     = true
-}
-
 variable "region" {
   description = "The AWS region to deploy to"
   type        = string

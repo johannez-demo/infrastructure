@@ -1,7 +1,7 @@
 data "aws_ssm_parameter" "db_username" {
-  name = "/demo/dev/db.username"
+  name = "/${local.service_name}/${terraform.workspace}/db.username"
 }
 
 data "aws_ssm_parameter" "db_password" {
-  name = "/demo/dev/db.password"
+  name = "/${local.service_name}/${terraform.workspace}/db.password"
 }

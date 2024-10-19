@@ -2,7 +2,7 @@
 resource "aws_security_group" "rds" {
   name        = "${local.name_prefix}-db-sg"
   description = "Security group for RDS instance"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = aws_vpc.this.id
 
   ingress {
     from_port   = 3306

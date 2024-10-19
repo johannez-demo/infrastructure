@@ -1,5 +1,5 @@
 # Create VPC
-resource "aws_vpc" "main" {
+resource "aws_vpc" "this" {
   cidr_block = var.cidr.vpc
   tags = {
     Name = "${local.name_prefix}-vpc"
@@ -8,7 +8,7 @@ resource "aws_vpc" "main" {
 
 # Create subnets
 resource "aws_subnet" "public_a" {
-  vpc_id                  = aws_vpc.main.id
+  vpc_id                  = aws_vpc.this.id
   cidr_block              = var.cidr.public_subnet_a
   availability_zone       = var.availability_zones.zone_a
   map_public_ip_on_launch = true
@@ -18,7 +18,7 @@ resource "aws_subnet" "public_a" {
 }
 
 resource "aws_subnet" "public_b" {
-  vpc_id                  = aws_vpc.main.id
+  vpc_id                  = aws_vpc.this.id
   cidr_block              = var.cidr.public_subnet_b
   availability_zone       = var.availability_zones.zone_b
   map_public_ip_on_launch = true
@@ -28,7 +28,7 @@ resource "aws_subnet" "public_b" {
 }
 
 resource "aws_subnet" "private_a" {
-  vpc_id            = aws_vpc.main.id
+  vpc_id            = aws_vpc.this.id
   cidr_block        = var.cidr.private_subnet_a
   availability_zone = var.availability_zones.zone_a
   tags = {
@@ -37,7 +37,7 @@ resource "aws_subnet" "private_a" {
 }
 
 resource "aws_subnet" "private_b" {
-  vpc_id            = aws_vpc.main.id
+  vpc_id            = aws_vpc.this.id
   cidr_block        = var.cidr.private_subnet_b
   availability_zone = var.availability_zones.zone_b
   tags = {
@@ -46,8 +46,8 @@ resource "aws_subnet" "private_b" {
 }
 
 # Create Internet Gateway
-resource "aws_internet_gateway" "main" {
-  vpc_id = aws_vpc.main.id
+resource "aws_internet_gateway" "this" {
+  vpc_id = aws_vpc.this.id
   tags = {
     Name = "${local.name_prefix}-igw"
   }
@@ -55,7 +55,7 @@ resource "aws_internet_gateway" "main" {
 
 # Create Route Table for Public Subnets
 resource "aws_route_table" "public" {
-  vpc_id = aws_vpc.main.id
+  vpc_id = aws_vpc.this.id
   tags = {
     Name = "${local.name_prefix}-public-rt"
   }
@@ -65,7 +65,7 @@ resource "aws_route_table" "public" {
 resource "aws_route" "public_internet_access" {
   route_table_id         = aws_route_table.public.id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = aws_internet_gateway.main.id
+  gateway_id             = aws_internet_gateway.this.id
 }
 
 # Associate Public Subnets with Route Table
