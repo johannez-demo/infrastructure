@@ -87,7 +87,8 @@ resource "aws_instance" "web" {
               amazon-linux-extras install docker -y
               service docker start
               usermod -a -G docker ec2-user
-              docker run -d -p 80:80 \
+
+              docker run -d --name ${local.service_name} -p 80:80 \
                 -e WORDPRESS_DB_HOST=${aws_ssm_parameter.db_host.value} \
                 -e WORDPRESS_DB_NAME=${local.service_name} \
                 -e WORDPRESS_DB_USER=${data.aws_ssm_parameter.db_username.value} \
